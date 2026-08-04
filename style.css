@@ -11,7 +11,8 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
-    background: linear-gradient(-45deg, #1d2b64, #0f0c20, #23a6d5, #23d5ab);
+    /* লাইট কমিয়ে ডিপ/গাঢ় কালার মিক্স করা হয়েছে */
+    background: linear-gradient(-45deg, #0d1117, #161b22, #1f2937, #111827);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     transition: background 0.5s ease;
@@ -186,4 +187,10 @@ p {
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
+}
+/* Dark Glass Background Update */
+.glass-effect, .glass-card {
+    background: rgba(15, 23, 42, 0.65) !important;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
