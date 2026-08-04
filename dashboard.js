@@ -1,4 +1,22 @@
-// Time Slot Filter
+// 1. Logged-in User Info & Profile Picture Load
+window.addEventListener('DOMContentLoaded', () => {
+    // লগইন করা পেশেন্টের নাম ড্যাশবোর্ডে সেট করা
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInPatient'));
+    if (loggedInUser && document.getElementById('patient-name-display')) {
+        document.getElementById('patient-name-display').innerText = loggedInUser.name;
+    }
+
+    // সেভ করা প্রোফাইল পিকচার সেট করা
+    const savedAvatar = localStorage.getItem('patientAvatar');
+    if (savedAvatar && document.getElementById('user-avatar')) {
+        document.getElementById('user-avatar').src = savedAvatar;
+    }
+
+    // পেশেন্টের নিজস্ব অ্যাপয়েন্টমেন্ট লোড করা
+    loadAppointments();
+});
+
+// 2. Doctor-Specific Dynamic Time Slots
 function updateTimeSlots() {
     const docSelect = document.getElementById('doctor-select').value;
     const timeSelect = document.getElementById('appointment-time');
@@ -24,19 +42,28 @@ function updateTimeSlots() {
     });
 }
 
-// Save & Render Appointments from LocalStorage
+// 3. Load & Filter Appointments SPECIFICALLY for Logged-In User
 function loadAppointments() {
     const appointmentList = document.getElementById('appointment-list');
     appointmentList.innerHTML = '';
     
-    const appointments = JSON.parse(localStorage.getItem('clinicAppointments')) || [];
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInPatient'));
 
-    if (appointments.length === 0) {
+    if (!loggedInUser) {
+        appointmentList.innerHTML = '<p style="color: #ff7675; text-align: center;">Please login first.</p>';
+        return;
+    }
+
+    // সব অ্যাপয়েন্টমেন্ট থেকে শুধু এই ইমেইলের অ্যাপয়েন্টমেন্টগুলো ফিল্টার করা
+    const allAppointments = JSON.parse(localStorage.getItem('clinicAppointments')) || [];
+    const userAppointments = allAppointments.filter(app => app.patientEmail === loggedInUser.email);
+
+    if (userAppointments.length === 0) {
         appointmentList.innerHTML = '<p style="color: #b2bec3; text-align: center;">No appointments booked yet.</p>';
         return;
     }
 
-    appointments.forEach((item) => {
+    userAppointments.forEach((item) => {
         const newCard = document.createElement('div');
         newCard.className = 'appointment-card fade-in';
 
@@ -58,9 +85,22 @@ function loadAppointments() {
     });
 }
 
-// Submit New Appointment
+// 4. Submit New Appointment (Tagging with Patient Email)
 document.getElementById('appointment-form').addEventListener('submit', function(e) {
     e.preventDefault();
+
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInPatient'));
+
+    if (!loggedInUser) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'You must be logged in to book an appointment.',
+            icon: 'error',
+            background: '#1e1e2f',
+            color: '#fff'
+        });
+        return;
+    }
 
     const doctor = document.getElementById('doctor-select').value;
     const date = document.getElementById('appointment-date').value;
@@ -69,9 +109,11 @@ document.getElementById('appointment-form').addEventListener('submit', function(
 
     const [docName, docDept] = doctor.split(' — ');
 
+    // নতুন বুকিংয়ে ইউজারের ইমেইল ও নাম যুক্ত করা
     const newApp = {
         id: Date.now(),
-        patientName: "Patient User",
+        patientEmail: loggedInUser.email,
+        patientName: loggedInUser.name,
         docName,
         docDept: docDept || 'General',
         date,
@@ -97,7 +139,7 @@ document.getElementById('appointment-form').addEventListener('submit', function(
     });
 });
 
-// Print Slip
+// 5. Printable Slip Generator
 function printSlip(doctor, dept, date, time) {
     const slipWindow = window.open('', '', 'width=600,height=600');
     slipWindow.document.write(`
@@ -125,7 +167,7 @@ function printSlip(doctor, dept, date, time) {
     `);
 }
 
-// Avatar upload logic
+// 6. Profile Avatar Change Logic
 const avatarInput = document.getElementById('avatar-input');
 if (avatarInput) {
     avatarInput.addEventListener('change', function(e) {
@@ -138,13 +180,5 @@ if (avatarInput) {
             };
             reader.readAsDataURL(file);
         }
-    });
+   });
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-    loadAppointments();
-    const savedAvatar = localStorage.getItem('patientAvatar');
-    if (savedAvatar && document.getElementById('user-avatar')) {
-        document.getElementById('user-avatar').src = savedAvatar;
-    }
-});

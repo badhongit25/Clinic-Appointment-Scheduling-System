@@ -43,17 +43,38 @@ function toggleTheme() {
     }
 }
 
-// 1. Patient Registration Handler
-async function handlePatientRegister(event) {
+// 1. Patient Registration Handler (LocalStorage e save korar jonno)
+function handlePatientRegister(event) {
     event.preventDefault();
 
     const name = document.getElementById('reg-name').value;
     const email = document.getElementById('reg-email').value;
     const password = document.getElementById('reg-password').value;
 
+    // LocalStorage theke ager registered patients niye asha
+    const registeredPatients = JSON.parse(localStorage.getItem('registeredPatients')) || [];
+
+    // Check kora ei email shobai age register korse kina
+    const isExist = registeredPatients.some(patient => patient.email === email);
+
+    if (isExist) {
+        Swal.fire({
+            title: 'Email Already Exists!',
+            text: 'This email is already registered. Please login.',
+            icon: 'warning',
+            background: '#1e1e2f',
+            color: '#fff'
+        });
+        return;
+    }
+
+    // Nutun patient add kora
+    registeredPatients.push({ name, email, password });
+    localStorage.setItem('registeredPatients', JSON.stringify(registeredPatients));
+
     Swal.fire({
         title: 'Registration Successful!',
-        text: 'Welcome aboard! Please login now.',
+        text: 'Your account has been created. Please login now.',
         icon: 'success',
         confirmButtonColor: '#00c6ff',
         background: '#1e1e2f',
@@ -61,6 +82,46 @@ async function handlePatientRegister(event) {
     }).then(() => {
         switchForm('patient-login');
     });
+}
+
+// 2. Patient Login Handler (Validation add kora hoese)
+function handlePatientLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    const registeredPatients = JSON.parse(localStorage.getItem('registeredPatients')) || [];
+
+    // Registered Patients der vitor match kora
+    const validPatient = registeredPatients.find(patient => patient.email === email && patient.password === password);
+
+    if (validPatient) {
+        // Patient er name o details store rakha Dashboard e dekhanor jonno
+        localStorage.setItem('loggedInPatient', JSON.stringify(validPatient));
+
+        Swal.fire({
+            title: 'Login Successful!',
+            text: `Welcome back, ${validPatient.name}!`,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+            background: '#1e1e2f',
+            color: '#fff'
+        }).then(() => {
+            window.location.href = "dashboard.html";
+        });
+    } else {
+        // Register na thakle ba vool password dile error ashbe
+        Swal.fire({
+            title: 'Access Denied!',
+            text: 'Invalid Email or Password! Please register first if you are new.',
+            icon: 'error',
+            confirmButtonColor: '#ff7675',
+            background: '#1e1e2f',
+            color: '#fff'
+        });
+    }
 }
 
 // 2. Patient Login Handler
