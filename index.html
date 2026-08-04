@@ -19,21 +19,21 @@
     
     <div class="container glass-effect fade-in">
         <!-- Patient Login Form -->
-        <div id="patient-login" class="form-section active">
-            <h2><i class="fa-solid fa-user-injured"></i> Patient Login</h2>
-            <form onsubmit="handlePatientLogin(event)">
-                <div class="input-group">
-                    <input type="email" id="login-email" required placeholder="Email Address">
-                </div>
-                <div class="input-group password-group">
-                    <input type="password" id="login-password" required placeholder="Password">
-                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('login-password', this)"></i>
-                </div>
-                <button type="submit" class="btn">Login as Patient</button>
-            </form>
-            <p>New here? <span class="toggle-link" onclick="switchForm('patient-register')">Register Now</span></p>
-            <p>Are you an Admin? <span class="toggle-link" onclick="switchForm('admin-login')">Admin_Login</span></p>
+<div id="patient-login" class="form-section active">
+    <h2><i class="fa-solid fa-user-injured"></i> Patient Login</h2>
+    <form onsubmit="handlePatientLogin(event)">
+        <div class="input-group">
+            <input type="email" id="login-email" required placeholder="Email Address">
         </div>
+        <div class="input-group password-group">
+            <input type="password" id="login-password" required placeholder="Password">
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('login-password', this)"></i>
+        </div>
+        <button type="submit" class="btn">Login as Patient</button>
+    </form>
+    <p>New here? <span class="toggle-link" onclick="switchForm('patient-register')">Register Now</span></p>
+    <p>Are you an Admin? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
+</div>
 
         <!-- Patient Registration Form -->
         <div id="patient-register" class="form-section hidden">

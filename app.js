@@ -124,23 +124,49 @@ function handlePatientLogin(event) {
     }
 }
 
-// 2. Patient Login Handler
-async function handlePatientLogin(event) {
+// Strict Patient Login Handler
+function handlePatientLogin(event) {
     event.preventDefault();
 
-    Swal.fire({
-        title: 'Login Successful!',
-        text: 'Redirecting to your patient dashboard...',
-        icon: 'success',
-        timer: 1500,
-        showConfirmButton: false,
-        background: '#1e1e2f',
-        color: '#fff'
-    }).then(() => {
-        window.location.href = "dashboard.html";
-    });
-}
+    // ইনপুট ভ্যালু নেওয়া এবং স্পেস ট্রিম (Trim) করা
+    const emailInput = document.getElementById('login-email').value.trim();
+    const passwordInput = document.getElementById('login-password').value.trim();
 
+    // LocalStorage থেকে রেজিস্টার্ড পেশেন্টদের লিস্ট আনা
+    const registeredPatients = JSON.parse(localStorage.getItem('registeredPatients')) || [];
+
+    // রেজিস্টার্ড ইউজারদের সাথে একদম হুবহু মেলানো (Strict Check)
+    const validPatient = registeredPatients.find(patient => 
+        patient.email.toLowerCase() === emailInput.toLowerCase() && patient.password === passwordInput
+    );
+
+    if (validPatient) {
+        // সঠিক ইউজার হলে ডাটা সেভ করে ড্যাশবোর্ডে পাঠাবে
+        localStorage.setItem('loggedInPatient', JSON.stringify(validPatient));
+
+        Swal.fire({
+            title: 'Login Successful!',
+            text: `Welcome back, ${validPatient.name}!`,
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+            background: '#1e1e2f',
+            color: '#fff'
+        }).then(() => {
+            window.location.href = "dashboard.html";
+        });
+    } else {
+        // রেজিস্টার না করা উল্টাপাল্টা ইমেইল বা ভুল পাসওয়ার্ড দিলে আটকে দেবে
+        Swal.fire({
+            title: 'Access Denied!',
+            text: 'No account found with this email or password! Please Register first.',
+            icon: 'error',
+            confirmButtonColor: '#ff7675',
+            background: '#1e1e2f',
+            color: '#fff'
+        });
+    }
+}
 // Admin Registration Handler
 function handleAdminRegister(event) {
     event.preventDefault();
