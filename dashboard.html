@@ -11,7 +11,6 @@
 <body>
     <div class="background-animation"></div>
 
-    <!-- Navigation Header -->
     <nav class="navbar glass-card">
         <div class="logo"><i class="fa-solid fa-heart-pulse"></i> ClinicCare</div>
         <div class="user-profile">
@@ -23,15 +22,13 @@
                 <input type="file" id="avatar-input" accept="image/*" style="display: none;">
             </div>
             <div class="user-info">
-                <span>Welcome, <strong id="patient-name-display">Badhon</strong></span>
+                <span>Welcome, <strong id="patient-name-display">Patient</strong></span>
             </div>
             <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
         </div>
     </nav>
 
-    <!-- Main Content Container -->
     <div class="dashboard-container">
-        
         <!-- Booking Form Section -->
         <div class="glass-card booking-section">
             <h2><i class="fa-regular fa-calendar-plus"></i> Book an Appointment</h2>
@@ -73,25 +70,9 @@
         <!-- Appointment History Section -->
         <div class="glass-card history-section">
             <h2><i class="fa-solid fa-clock-rotate-left"></i> My Appointments</h2>
-            <div class="appointment-list" id="appointment-list">
-                <!-- Sample Card -->
-                <div class="appointment-card fade-in">
-                    <div class="doc-info">
-                        <h3>Dr. Sarah Khan</h3>
-                        <p><i class="fa-solid fa-stethoscope"></i> Cardiology</p>
-                    </div>
-                    <div class="schedule-info">
-                        <p><i class="fa-regular fa-calendar"></i> 10 Aug 2026</p>
-                        <p><i class="fa-regular fa-clock"></i> 10:00 AM</p>
-                    </div>
-                    <div class="action-wrap">
-                        <div class="status-tag confirmed">Confirmed</div>
-                        <button class="print-btn" onclick="printSlip('Dr. Sarah Khan', 'Cardiology', '10 Aug 2026', '10:00 AM')"><i class="fa-solid fa-print"></i> Slip</button>
-                    </div>
-                </div>
-            </div>
+            <!-- খালি কন্টেইনার - ডাটা জেনারেট হবে JS দিয়ে -->
+            <div class="appointment-list" id="appointment-list"></div>
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

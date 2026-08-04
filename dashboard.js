@@ -1,4 +1,4 @@
-// Doctor-Specific Dynamic Time Slots
+// Time Slot Filter
 function updateTimeSlots() {
     const docSelect = document.getElementById('doctor-select').value;
     const timeSelect = document.getElementById('appointment-time');
@@ -24,42 +24,72 @@ function updateTimeSlots() {
     });
 }
 
-// Appointment Booking Handler
+// Save & Render Appointments from LocalStorage
+function loadAppointments() {
+    const appointmentList = document.getElementById('appointment-list');
+    appointmentList.innerHTML = '';
+    
+    const appointments = JSON.parse(localStorage.getItem('clinicAppointments')) || [];
+
+    if (appointments.length === 0) {
+        appointmentList.innerHTML = '<p style="color: #b2bec3; text-align: center;">No appointments booked yet.</p>';
+        return;
+    }
+
+    appointments.forEach((item) => {
+        const newCard = document.createElement('div');
+        newCard.className = 'appointment-card fade-in';
+
+        newCard.innerHTML = `
+            <div class="doc-info">
+                <h3>${item.docName}</h3>
+                <p><i class="fa-solid fa-stethoscope"></i> ${item.docDept}</p>
+            </div>
+            <div class="schedule-info">
+                <p><i class="fa-regular fa-calendar"></i> ${item.date}</p>
+                <p><i class="fa-regular fa-clock"></i> ${item.time}</p>
+            </div>
+            <div class="action-wrap">
+                <div class="status-tag ${item.status.toLowerCase()}">${item.status}</div>
+                ${item.status === 'Confirmed' ? `<button class="print-btn" onclick="printSlip('${item.docName}', '${item.docDept}', '${item.date}', '${item.time}')"><i class="fa-solid fa-print"></i> Slip</button>` : ''}
+            </div>
+        `;
+        appointmentList.appendChild(newCard);
+    });
+}
+
+// Submit New Appointment
 document.getElementById('appointment-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const doctor = document.getElementById('doctor-select').value;
     const date = document.getElementById('appointment-date').value;
     const time = document.getElementById('appointment-time').value;
-
-    if (!doctor || !date || !time) return;
+    const problem = document.getElementById('problem-desc').value;
 
     const [docName, docDept] = doctor.split(' — ');
 
-    const appointmentList = document.getElementById('appointment-list');
-    const newCard = document.createElement('div');
-    newCard.className = 'appointment-card fade-in';
+    const newApp = {
+        id: Date.now(),
+        patientName: "Patient User",
+        docName,
+        docDept: docDept || 'General',
+        date,
+        time,
+        problem,
+        status: 'Pending'
+    };
 
-    newCard.innerHTML = `
-        <div class="doc-info">
-            <h3>${docName}</h3>
-            <p><i class="fa-solid fa-stethoscope"></i> ${docDept || 'General'}</p>
-        </div>
-        <div class="schedule-info">
-            <p><i class="fa-regular fa-calendar"></i> ${date}</p>
-            <p><i class="fa-regular fa-clock"></i> ${time}</p>
-        </div>
-        <div class="action-wrap">
-            <div class="status-tag pending">Pending</div>
-        </div>
-    `;
+    const appointments = JSON.parse(localStorage.getItem('clinicAppointments')) || [];
+    appointments.unshift(newApp);
+    localStorage.setItem('clinicAppointments', JSON.stringify(appointments));
 
-    appointmentList.prepend(newCard);
     this.reset();
+    loadAppointments();
 
     Swal.fire({
         title: 'Booking Requested!',
-        text: 'Your appointment is now pending admin confirmation.',
+        text: 'Your appointment request has been saved.',
         icon: 'success',
         confirmButtonColor: '#00f2fe',
         background: '#1e1e2f',
@@ -67,31 +97,27 @@ document.getElementById('appointment-form').addEventListener('submit', function(
     });
 });
 
-// Print Printable Appointment Slip
+// Print Slip
 function printSlip(doctor, dept, date, time) {
     const slipWindow = window.open('', '', 'width=600,height=600');
     slipWindow.document.write(`
         <html>
         <head>
-            <title>Appointment Token - ClinicCare</title>
+            <title>Appointment Slip - ClinicCare</title>
             <style>
                 body { font-family: Arial, sans-serif; padding: 30px; text-align: center; }
                 .token-card { border: 2px dashed #00f2fe; padding: 20px; border-radius: 12px; }
                 h1 { color: #0072ff; }
-                p { font-size: 16px; margin: 8px 0; }
             </style>
         </head>
         <body>
             <div class="token-card">
-                <h1>🏥 ClinicCare Confirmation Slip</h1>
+                <h1>🏥 ClinicCare Slip</h1>
                 <hr>
                 <p><strong>Doctor:</strong> ${doctor}</p>
-                <p><strong>Department:</strong> ${dept}</p>
+                <p><strong>Dept:</strong> ${dept}</p>
                 <p><strong>Date:</strong> ${date}</p>
                 <p><strong>Time:</strong> ${time}</p>
-                <p><strong>Status:</strong> CONFIRMED</p>
-                <hr>
-                <small>Please present this slip upon arrival at the clinic counter.</small>
             </div>
             <script>window.print();</script>
         </body>
@@ -99,7 +125,7 @@ function printSlip(doctor, dept, date, time) {
     `);
 }
 
-// Profile Picture Upload Logic
+// Avatar upload logic
 const avatarInput = document.getElementById('avatar-input');
 if (avatarInput) {
     avatarInput.addEventListener('change', function(e) {
@@ -116,6 +142,7 @@ if (avatarInput) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    loadAppointments();
     const savedAvatar = localStorage.getItem('patientAvatar');
     if (savedAvatar && document.getElementById('user-avatar')) {
         document.getElementById('user-avatar').src = savedAvatar;
