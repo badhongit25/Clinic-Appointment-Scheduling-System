@@ -80,19 +80,77 @@ async function handlePatientLogin(event) {
     });
 }
 
-// 3. Admin Login Handler
-function handleAdminLogin(event) {
+// Admin Registration Handler
+function handleAdminRegister(event) {
     event.preventDefault();
-    
+
+    const adminId = document.getElementById('reg-admin-id').value;
+    const adminPassword = document.getElementById('reg-admin-password').value;
+
+    // অ্যাডমিন ডাটা LocalStorage এ সেভ রাখা
+    const registeredAdmins = JSON.parse(localStorage.getItem('registeredAdmins')) || [];
+
+    // চেক করা এই ID অলরেডি আছে কিনা
+    const exists = registeredAdmins.some(admin => admin.id === adminId);
+
+    if (exists) {
+        Swal.fire({
+            title: 'Already Exists!',
+            text: 'This Admin ID is already registered.',
+            icon: 'warning',
+            background: '#1e1e2f',
+            color: '#fff'
+        });
+        return;
+    }
+
+    registeredAdmins.push({ id: adminId, password: adminPassword });
+    localStorage.setItem('registeredAdmins', JSON.stringify(registeredAdmins));
+
     Swal.fire({
-        title: 'Admin Access Granted!',
-        text: 'Opening Admin Management Panel...',
-        icon: 'info',
-        timer: 1500,
-        showConfirmButton: false,
+        title: 'Admin Registered!',
+        text: 'Account created successfully. Please login now.',
+        icon: 'success',
+        confirmButtonColor: '#00c6ff',
         background: '#1e1e2f',
         color: '#fff'
     }).then(() => {
-        window.location.href = "admin.html";
+        switchForm('admin-login');
     });
+}
+
+// Admin Login Handler
+function handleAdminLogin(event) {
+    event.preventDefault();
+
+    const adminId = document.getElementById('admin-id').value;
+    const adminPassword = document.getElementById('admin-password').value;
+
+    const registeredAdmins = JSON.parse(localStorage.getItem('registeredAdmins')) || [];
+
+    // LocalStorage এর ডাটার সাথে মিলিয়ে দেখা
+    const validAdmin = registeredAdmins.find(admin => admin.id === adminId && admin.password === adminPassword);
+
+    if (validAdmin) {
+        Swal.fire({
+            title: 'Admin Access Granted!',
+            text: 'Welcome to Admin Management Panel.',
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+            background: '#1e1e2f',
+            color: '#fff'
+        }).then(() => {
+            window.location.href = "admin.html";
+        });
+    } else {
+        Swal.fire({
+            title: 'Access Denied!',
+            text: 'Invalid Admin ID or Password. Please register first if you are new.',
+            icon: 'error',
+            confirmButtonColor: '#ff7675',
+            background: '#1e1e2f',
+            color: '#fff'
+        });
+    }
 }

@@ -54,21 +54,38 @@
             <p>Already have an account? <span class="toggle-link" onclick="switchForm('patient-login')">Login Here</span></p>
         </div>
 
-        <!-- Admin Login Form -->
-        <div id="admin-login" class="form-section hidden">
-            <h2><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
-            <form onsubmit="handleAdminLogin(event)">
-                <div class="input-group">
-                    <input type="text" id="admin-id" required placeholder="Admin ID">
-                </div>
-                <div class="input-group password-group">
-                    <input type="password" id="admin-password" required placeholder="Password">
-                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('admin-password', this)"></i>
-                </div>
-                <button type="submit" class="btn admin-btn">Login as Admin</button>
-            </form>
-            <p>Are you a Patient? <span class="toggle-link" onclick="switchForm('patient-login')">Patient Login</span></p>
+        <<!-- Admin Login Form -->
+<div id="admin-login" class="form-section hidden">
+    <h2><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
+    <form onsubmit="handleAdminLogin(event)">
+        <div class="input-group">
+            <input type="text" id="admin-id" required placeholder="Admin ID">
         </div>
+        <div class="input-group password-group">
+            <input type="password" id="admin-password" required placeholder="Password">
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('admin-password', this)"></i>
+        </div>
+        <button type="submit" class="btn admin-btn">Login as Admin</button>
+    </form>
+    <p>New Admin? <span class="toggle-link" onclick="switchForm('admin-register')">Register Admin</span></p>
+    <p>Are you a Patient? <span class="toggle-link" onclick="switchForm('patient-login')">Patient Login</span></p>
+</div>
+
+<!-- Admin Registration Form -->
+<div id="admin-register" class="form-section hidden">
+    <h2><i class="fa-solid fa-user-plus"></i> Admin Registration</h2>
+    <form onsubmit="handleAdminRegister(event)">
+        <div class="input-group">
+            <input type="text" id="reg-admin-id" required placeholder="Create Admin ID">
+        </div>
+        <div class="input-group password-group">
+            <input type="password" id="reg-admin-password" required placeholder="Create Password">
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('reg-admin-password', this)"></i>
+        </div>
+        <button type="submit" class="btn admin-btn">Register Admin</button>
+    </form>
+    <p>Already registered? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
+</div>
     </div>
 
     <!-- SweetAlert2 JS -->
