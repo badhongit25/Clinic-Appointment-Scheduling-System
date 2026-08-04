@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(-45deg, #1d2b64, #f8cdda, #24243e, #0f0c20);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: white;
+    padding-bottom: 30px;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 40px;
+    padding: 15px 30px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #00f2fe;
+}
+
+.logout-btn {
+    color: #ff7675;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    color: #d63031;
+}
+
+/* Joss Avatar Profile CSS */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar-container {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(45deg, #00f2fe, #4facfe, #00c6ff);
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.avatar-container:hover {
+    transform: scale(1.08);
+}
+
+.avatar-container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #1a1a2e;
+}
+
+.avatar-upload-btn {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00f2fe;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+@media (max-width: 850px) {
+    .dashboard-container { grid-template-columns: 1fr; }
+}
+
+.booking-section, .history-section { padding: 30px; }
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #4facfe;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-group { margin-bottom: 18px; }
+.input-row { display: flex; gap: 15px; }
+.input-row .input-group { flex: 1; }
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s;
+}
+
+select option { background: #1e1e2f; color: white; }
+
+input:focus, select:focus, textarea:focus {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: #00f2fe;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 198, 255, 0.4);
+}
+
+.appointment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.appointment-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #00f2fe;
+    border-radius: 10px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.doc-info h3 { font-size: 16px; color: #ffffff; }
+.doc-info p, .schedule-info p { font-size: 13px; color: #b2bec3; }
+
+.action-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.status-tag {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-tag.pending {
+    background: rgba(253, 203, 110, 0.25);
+    color: #ffeaa7;
+    border: 1px solid #fdcb6e;
+}
+
+.status-tag.confirmed {
+    background: rgba(85, 239, 196, 0.25);
+    color: #55efc4;
+    border: 1px solid #00b894;
+}
+
+.print-btn {
+    background: rgba(0, 242, 254, 0.2);
+    border: 1px solid #00f2fe;
+    color: #00f2fe;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.print-btn:hover {
+    background: #00f2fe;
+    color: #000;
+}
+
+.fade-in { animation: fadeIn 0.5s ease-in-out; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - Clinic Care</title>
+    <link rel="stylesheet" href="dashboard-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+
+    <!-- Navigation Header -->
+    <nav class="navbar glass-card">
+        <div class="logo"><i class="fa-solid fa-heart-pulse"></i> ClinicCare</div>
+        <div class="user-profile">
+            <div class="avatar-container">
+                <img id="user-avatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile Picture">
+                <label for="avatar-input" class="avatar-upload-btn" title="Upload Photo">
+                    <i class="fa-solid fa-camera"></i>
+                </label>
+                <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+            </div>
+            <div class="user-info">
+                <span>Welcome, <strong id="patient-name-display">Badhon</strong></span>
+            </div>
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="dashboard-container">
+        
+        <!-- Booking Form Section -->
+        <div class="glass-card booking-section">
+            <h2><i class="fa-regular fa-calendar-plus"></i> Book an Appointment</h2>
+            <form id="appointment-form">
+                <div class="input-group">
+                    <label><i class="fa-solid fa-user-doctor"></i> Select Doctor</label>
+                    <select id="doctor-select" onchange="updateTimeSlots()" required>
+                        <option value="" disabled selected>Choose a doctor...</option>
+                        <option value="Dr. Sarah Khan — Cardiology">Dr. Sarah Khan — Cardiology</option>
+                        <option value="Dr. Tanvir Ahmed — Neurology">Dr. Tanvir Ahmed — Neurology</option>
+                        <option value="Dr. Nusrat Jahan — Dental">Dr. Nusrat Jahan — Dental</option>
+                        <option value="Dr. Rafiqul Islam — Pediatrics">Dr. Rafiqul Islam — Pediatrics</option>
+                    </select>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label><i class="fa-regular fa-calendar"></i> Preferred Date</label>
+                        <input type="date" id="appointment-date" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label><i class="fa-regular fa-clock"></i> Available Slot</label>
+                        <select id="appointment-time" required>
+                            <option value="" disabled selected>Select doctor first...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fa-solid fa-notes-medical"></i> Symptoms / Health Issue</label>
+                    <textarea id="problem-desc" rows="3" placeholder="Describe your symptoms briefly..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn submit-btn"><i class="fa-solid fa-paper-plane"></i> Confirm Booking</button>
+            </form>
+        </div>
+
+        <!-- Appointment History Section -->
+        <div class="glass-card history-section">
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> My Appointments</h2>
+            <div class="appointment-list" id="appointment-list">
+                <!-- Sample Card -->
+                <div class="appointment-card fade-in">
+                    <div class="doc-info">
+                        <h3>Dr. Sarah Khan</h3>
+                        <p><i class="fa-solid fa-stethoscope"></i> Cardiology</p>
+                    </div>
+                    <div class="schedule-info">
+                        <p><i class="fa-regular fa-calendar"></i> 10 Aug 2026</p>
+                        <p><i class="fa-regular fa-clock"></i> 10:00 AM</p>
+                    </div>
+                    <div class="action-wrap">
+                        <div class="status-tag confirmed">Confirmed</div>
+                        <button class="print-btn" onclick="printSlip('Dr. Sarah Khan', 'Cardiology', '10 Aug 2026', '10:00 AM')"><i class="fa-solid fa-print"></i> Slip</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

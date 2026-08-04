@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Clinic Care</title>
+    <link rel="stylesheet" href="admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+
+    <nav class="navbar glass-card">
+        <div class="logo"><i class="fa-solid fa-user-shield"></i> ClinicCare Admin</div>
+        <div class="user-profile">
+            <span>Logged in as <strong>Administrator</strong></span>
+            <a href="index.html" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <!-- Stats Row -->
+        <div class="stats-grid">
+            <div class="glass-card stat-box">
+                <i class="fa-solid fa-calendar-check stat-icon"></i>
+                <div>
+                    <h3 id="total-count">3</h3>
+                    <p>Total Requests</p>
+                </div>
+            </div>
+            <div class="glass-card stat-box">
+                <i class="fa-solid fa-clock stat-icon pending-icon"></i>
+                <div>
+                    <h3 id="pending-count">2</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            <div class="glass-card stat-box">
+                <i class="fa-solid fa-circle-check stat-icon confirmed-icon"></i>
+                <div>
+                    <h3 id="confirmed-count">1</h3>
+                    <p>Confirmed</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="glass-card search-bar-container">
+            <input type="text" id="search-input" onkeyup="filterAppointments()" placeholder="🔍 Search patient or doctor name...">
+        </div>
+
+        <!-- Appointment Requests Table Section -->
+        <div class="glass-card table-section">
+            <h2><i class="fa-solid fa-list-check"></i> Manage Patient Appointments</h2>
+            
+            <div class="table-wrapper">
+                <table class="appointment-table">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Doctor & Specialty</th>
+                            <th>Date & Time</th>
+                            <th>Problem Details</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body">
+                        <tr id="row-1">
+                            <td><strong>Rahim Uddin</strong></td>
+                            <td>Dr. Sarah Khan <br><small>Cardiology</small></td>
+                            <td>10 Aug 2026 <br><small>10:00 AM</small></td>
+                            <td>Chest discomfort and shortness of breath.</td>
+                            <td><span class="badge pending">Pending</span></td>
+                            <td class="action-btns">
+                                <button class="btn btn-accept" onclick="updateStatus('row-1', 'Confirmed')"><i class="fa-solid fa-check"></i> Accept</button>
+                                <button class="btn btn-reject" onclick="updateStatus('row-1', 'Cancelled')"><i class="fa-solid fa-xmark"></i> Reject</button>
+                            </td>
+                        </tr>
+                        <tr id="row-2">
+                            <td><strong>Nusrat Jahan</strong></td>
+                            <td>Dr. Tanvir Ahmed <br><small>Neurology</small></td>
+                            <td>11 Aug 2026 <br><small>11:30 AM</small></td>
+                            <td>Frequent severe headaches and dizziness.</td>
+                            <td><span class="badge pending">Pending</span></td>
+                            <td class="action-btns">
+                                <button class="btn btn-accept" onclick="updateStatus('row-2', 'Confirmed')"><i class="fa-solid fa-check"></i> Accept</button>
+                                <button class="btn btn-reject" onclick="updateStatus('row-2', 'Cancelled')"><i class="fa-solid fa-xmark"></i> Reject</button>
+                            </td>
+                        </tr>
+                        <tr id="row-3">
+                            <td><strong>Sabbir Hossain</strong></td>
+                            <td>Dr. Nusrat Jahan <br><small>Dental</small></td>
+                            <td>08 Aug 2026 <br><small>04:00 PM</small></td>
+                            <td>Wisdom tooth swelling and mild pain.</td>
+                            <td><span class="badge confirmed">Confirmed</span></td>
+                            <td class="action-btns">
+                                <span class="status-done"><i class="fa-solid fa-check-double"></i> Processed</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

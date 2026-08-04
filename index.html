@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Appointment System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <!-- Theme Switcher Top Corner -->
+    <div class="theme-toggle-wrapper">
+        <button id="theme-toggle-btn" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+    </div>
+
+    <div class="background-animation"></div>
+    
+    <div class="container glass-effect fade-in">
+        <!-- Patient Login Form -->
+        <div id="patient-login" class="form-section active">
+            <h2><i class="fa-solid fa-user-injured"></i> Patient Login</h2>
+            <form onsubmit="handlePatientLogin(event)">
+                <div class="input-group">
+                    <input type="email" id="login-email" required placeholder="Email Address">
+                </div>
+                <div class="input-group password-group">
+                    <input type="password" id="login-password" required placeholder="Password">
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('login-password', this)"></i>
+                </div>
+                <button type="submit" class="btn">Login as Patient</button>
+            </form>
+            <p>New here? <span class="toggle-link" onclick="switchForm('patient-register')">Register Now</span></p>
+            <p>Are you an Admin? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
+        </div>
+
+        <!-- Patient Registration Form -->
+        <div id="patient-register" class="form-section hidden">
+            <h2><i class="fa-solid fa-user-plus"></i> Patient Registration</h2>
+            <form onsubmit="handlePatientRegister(event)">
+                <div class="input-group">
+                    <input type="text" id="reg-name" required placeholder="Full Name">
+                </div>
+                <div class="input-group">
+                    <input type="email" id="reg-email" required placeholder="Email Address">
+                </div>
+                <div class="input-group password-group">
+                    <input type="password" id="reg-password" required placeholder="Create Password">
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('reg-password', this)"></i>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <p>Already have an account? <span class="toggle-link" onclick="switchForm('patient-login')">Login Here</span></p>
+        </div>
+
+        <!-- Admin Login Form -->
+        <div id="admin-login" class="form-section hidden">
+            <h2><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="input-group">
+                    <input type="text" id="admin-id" required placeholder="Admin ID">
+                </div>
+                <div class="input-group password-group">
+                    <input type="password" id="admin-password" required placeholder="Password">
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('admin-password', this)"></i>
+                </div>
+                <button type="submit" class="btn admin-btn">Login as Admin</button>
+            </form>
+            <p>Are you a Patient? <span class="toggle-link" onclick="switchForm('patient-login')">Patient Login</span></p>
+        </div>
+    </div>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="app.js"></script>
+</body>
+</html>
