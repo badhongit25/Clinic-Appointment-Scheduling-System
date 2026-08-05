@@ -216,3 +216,34 @@ p {
     color: #0056b3;
     text-decoration: underline;
 }
+.card, .form-container {
+    background: rgba(255, 255, 255, 0.05); /* হালকা ট্রান্সপারেন্ট */
+    backdrop-filter: blur(12px); /* ব্যাকগ্রাউন্ড ব্লার */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* সূক্ষ্ম বর্ডার */
+    border-radius: 16px; /* একটু বেশি রাউন্ডেড কর্নার */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+/* বাটন বা যেকোনো ক্লিকেবল উপাদানে স্মুথনেস */
+button, input, select, .card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* বাটনে হোভার করলে হালকা উপরে ওঠা এবং গ্লো দেওয়া */
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+}
+
+/* বাটন চাপার সময় ক্লিক ফিল আসা */
+button:active {
+    transform: translateY(0);
+}
+input:focus, select:focus {
+    outline: none;
+    border-color: #3b82f6; /* নীল আলো */
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
