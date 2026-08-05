@@ -6,14 +6,17 @@
     <title>Clinic Appointment System_C</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Google Fonts: Plus Jakarta Sans -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<!-- AOS CSS -->
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
     <!-- Theme Switcher Top Corner -->
@@ -23,23 +26,25 @@
 
     <div class="background-animation"></div>
     
-    <div class="container glass-effect fade-in">
+    <!-- Main Form Container with AOS Animation -->
+    <div class="container glass-effect fade-in" data-aos="fade-up">
+        
         <!-- Patient Login Form -->
-<div id="patient-login" class="form-section active">
-    <h2><i class="fa-solid fa-user-injured"></i> Patient Login</h2>
-    <form onsubmit="handlePatientLogin(event)">
-        <div class="input-group">
-            <input type="email" id="login-email" required placeholder="Email Address">
+        <div id="patient-login" class="form-section active">
+            <h2><i class="fa-solid fa-user-injured"></i> Patient Login</h2>
+            <form onsubmit="handlePatientLogin(event)">
+                <div class="input-group">
+                    <input type="email" id="login-email" required placeholder="Email Address">
+                </div>
+                <div class="input-group password-group">
+                    <input type="password" id="login-password" required placeholder="Password">
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('login-password', this)"></i>
+                </div>
+                <button type="submit" class="btn">Login as Patient</button>
+            </form>
+            <p>New here? <span class="toggle-link" onclick="switchForm('patient-register')">Register Now</span></p>
+            <p>Are you an Admin? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
         </div>
-        <div class="input-group password-group">
-            <input type="password" id="login-password" required placeholder="Password">
-            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('login-password', this)"></i>
-        </div>
-        <button type="submit" class="btn">Login as Patient</button>
-    </form>
-    <p>New here? <span class="toggle-link" onclick="switchForm('patient-register')">Register Now</span></p>
-    <p>Are you an Admin? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
-</div>
 
         <!-- Patient Registration Form -->
         <div id="patient-register" class="form-section hidden">
@@ -61,58 +66,61 @@
         </div>
 
         <!-- Admin Login Form -->
-<div id="admin-login" class="form-section hidden">
-    <h2><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
-    <form onsubmit="handleAdminLogin(event)">
-        <div class="input-group">
-            <input type="text" id="admin-id" required placeholder="Admin ID">
+        <div id="admin-login" class="form-section hidden">
+            <h2><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="input-group">
+                    <input type="text" id="admin-id" required placeholder="Admin ID">
+                </div>
+                <div class="input-group password-group">
+                    <input type="password" id="admin-password" required placeholder="Password">
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('admin-password', this)"></i>
+                </div>
+                <button type="submit" class="btn admin-btn">Login as Admin</button>
+            </form>
+            <p>New Admin? <span class="toggle-link" onclick="switchForm('admin-register')">Register Admin</span></p>
+            <p>Are you a Patient? <span class="toggle-link" onclick="switchForm('patient-login')">Patient Login</span></p>
         </div>
-        <div class="input-group password-group">
-            <input type="password" id="admin-password" required placeholder="Password">
-            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('admin-password', this)"></i>
-        </div>
-        <button type="submit" class="btn admin-btn">Login as Admin</button>
-    </form>
-    <p>New Admin? <span class="toggle-link" onclick="switchForm('admin-register')">Register Admin</span></p>
-    <p>Are you a Patient? <span class="toggle-link" onclick="switchForm('patient-login')">Patient Login</span></p>
-</div>
 
-<!-- Admin Registration Form -->
-<div id="admin-register" class="form-section hidden">
-    <h2><i class="fa-solid fa-user-plus"></i> Admin Registration</h2>
-    <form onsubmit="handleAdminRegister(event)">
-        <div class="input-group">
-            <input type="text" id="reg-admin-id" required placeholder="Create Admin ID">
+        <!-- Admin Registration Form -->
+        <div id="admin-register" class="form-section hidden">
+            <h2><i class="fa-solid fa-user-plus"></i> Admin Registration</h2>
+            <form onsubmit="handleAdminRegister(event)">
+                <div class="input-group">
+                    <input type="text" id="reg-admin-id" required placeholder="Create Admin ID">
+                </div>
+                <div class="input-group password-group">
+                    <input type="password" id="reg-admin-password" required placeholder="Create Password">
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('reg-admin-password', this)"></i>
+                </div>
+                <button type="submit" class="btn admin-btn">Register Admin</button>
+            </form>
+            <p>Already registered? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
         </div>
-        <div class="input-group password-group">
-            <input type="password" id="reg-admin-password" required placeholder="Create Password">
-            <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('reg-admin-password', this)"></i>
-        </div>
-        <button type="submit" class="btn admin-btn">Register Admin</button>
-    </form>
-    <p>Already registered? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
-</div>
+        
     </div>
 
-    <!-- SweetAlert2 JS -->
+    <!-- Footer Section -->
+    <footer class="custom-footer">
+        <p>
+            Developed by 
+            <a href="https://github.com/badhongit25" target="_blank" rel="noopener noreferrer">
+                Badhon
+            </a>
+        </p>
+    </footer>
+
+    <!-- SweetAlert2 JS & Custom App JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="app.js"></script>
-    <!-- Footer Section -->
-<footer class="custom-footer">
-    <p>
-        Developed by <strong>Badhon</strong> | 
-        <a href="https://github.com/badhongit25" target="_blank" rel="noopener noreferrer">
-            GitHub Profile
-        </a>
-    </p>
-</footer>
-<!-- AOS JavaScript -->
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script>
-  AOS.init({
-    duration: 800, // অ্যানিমেশন স্পিড (৮০০ মিলি-সেকেন্ড)
-    once: true     // অ্যানিমেশন একবারই হবে
-  });
-</script>
+
+    <!-- AOS JavaScript -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800, // অ্যানিমেশন স্পিড (৮০০ মিলি-সেকেন্ড)
+        once: true     // অ্যানিমেশন একবারই হবে
+      });
+    </script>
 </body>
 </html>

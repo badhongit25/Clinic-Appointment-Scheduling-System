@@ -247,3 +247,28 @@ input:focus, select:focus {
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
+/* Custom Footer Styling */
+.custom-footer {
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.custom-footer p {
+    margin: 0;
+    font-size: 14px;
+    color: #a0aec0;
+}
+
+.custom-footer a {
+    color: #3182ce;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.custom-footer a:hover {
+    color: #63b3ed;
+    text-decoration: underline;
+}
