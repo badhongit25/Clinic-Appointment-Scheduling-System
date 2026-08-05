@@ -93,3 +93,13 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+// অ্যাপয়েন্টমেন্ট রিমুভ করার API
+app.delete('/api/appointments/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await pool.query('DELETE FROM appointments WHERE id = $1', [id]);
+        res.json({ message: "Appointment cancelled successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
