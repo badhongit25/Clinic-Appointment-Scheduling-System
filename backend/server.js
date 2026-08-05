@@ -1,84 +1,85 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
+const nodemailer = require('nodemailer');
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
-// Render PostgreSQL Connection
+// ডাটাবেজ কানেকশন (Render PostgreSQL)
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false // Render PostgreSQL-এর জন্য প্রয়োজনীয়
+    connectionString: process.env.DATABASE_URL || "postgresql://badhon:sIu03dkyALWtq5HSL20joDVjVfMKuYFv@dpg-d9p6j237uimc73amafng-a/clinic_xqd0",
+    ssl: { rejectUnauthorized: false }
+});
+
+// ইমেইল সার্ভিস (Nodemailer Transporter)
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'badhon533@gmail.com',      // আপনার জিমেইল
+        pass: 'YOUR_16_DIGIT_APP_PASSWORD' // আপনার ১৬ অক্ষরের Google App Password
     }
 });
 
-// ডাটাবেজ টেবিল তৈরি করার ফাংশন
-const initDB = async () => {
-    try {
-        // Users Table
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS users (
-                id SERIAL PRIMARY KEY,
-                name VARCHAR(100),
-                email VARCHAR(100) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                role VARCHAR(20) DEFAULT 'patient'
-            );
-        `);
-
-        // Appointments Table
-        await pool.query(`
-            CREATE TABLE IF NOT EXISTS appointments (
-                id SERIAL PRIMARY KEY,
-                patientName VARCHAR(100),
-                patientEmail VARCHAR(100),
-                doctor VARCHAR(100),
-                date VARCHAR(50),
-                time VARCHAR(50),
-                symptoms TEXT
-            );
-        `);
-        console.log('PostgreSQL Tables Created Successfully');
-    } catch (err) {
-        console.error('Database Init Error:', err);
-    }
-};
-
-initDB();
-
-// --- API ROUTES ---
-
-// Register Route
-app.post('/api/register', async (req, res) => {
-    const { name, email, password } = req.body;
-    try {
-        const newUser = await pool.query(
-            'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
-            [name, email, password]
-        );
-        res.status(201).json({ message: 'User registered successfully', user: newUser.rows[0] });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+// ১. টেস্ট রুট
+app.get('/', (req, res) => {
+    res.send('Clinic Appointment API is running...');
 });
 
-// Create Appointment Route
+// ২. অ্যাপয়েন্টমেন্ট বুকিং রুট (এখানেই ইমেইল সেন্ড হবে)
 app.post('/api/appointments', async (req, res) => {
-    const { patientName, patientEmail, doctor, date, time, symptoms } = req.body;
+    const { name, email, doctor, date, time } = req.body;
+
     try {
+        // ডাটাবেজে ডাটা ইনসার্ট
         const newAppointment = await pool.query(
-            'INSERT INTO appointments (patientName, patientEmail, doctor, date, time, symptoms) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-            [patientName, patientEmail, doctor, date, time, symptoms]
+            "INSERT INTO appointments (name, email, doctor, date, time) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            [name, email, doctor, date, time]
         );
-        res.status(201).json({ message: 'Appointment booked!', appointment: newAppointment.rows[0] });
+
+        // ইমেইল কনফিগারেশন
+        const mailOptions = {
+            from: '"Clinic Appointment System" <badhon533@gmail.com>',
+            to: email, 
+            subject: 'Appointment Confirmation - Clinic System',
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <h2 style="color: #2b6cb0;">Hello ${name},</h2>
+                    <p>Your appointment has been <strong style="color: #38a169;">Successfully Booked!</strong></p>
+                    <hr style="border: 0.5px solid #eee;">
+                    <p><strong>Appointment Details:</strong></p>
+                    <ul>
+                        <li><strong>Doctor:</strong> ${doctor}</li>
+                        <li><strong>Date:</strong> ${date}</li>
+                        <li><strong>Time:</strong> ${time}</li>
+                    </ul>
+                    <hr style="border: 0.5px solid #eee;">
+                    <p style="color: #718096; font-size: 13px;">Thank you for choosing our Medical Clinic Service.</p>
+                </div>
+            `
+        };
+
+        // ইমেইল পাঠানো
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Email error:", error);
+            } else {
+                console.log("Email sent successfully: " + info.response);
+            }
+        });
+
+        res.status(201).json({ 
+            message: "Appointment booked & email sent!", 
+            data: newAppointment.rows[0] 
+        });
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-// Get Appointments Route
+// ৩. সব অ্যাপয়েন্টমেন্ট দেখার রুট
 app.get('/api/appointments', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM appointments');
@@ -88,7 +89,7 @@ app.get('/api/appointments', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
