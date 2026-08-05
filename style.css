@@ -194,3 +194,25 @@ p {
     backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+/* Custom Footer Styling */
+.custom-footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.custom-footer a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.custom-footer a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
