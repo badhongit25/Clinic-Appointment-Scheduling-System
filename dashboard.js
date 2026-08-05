@@ -86,3 +86,59 @@ document.getElementById('appointment-form')?.addEventListener('submit', async fu
 });
 
 window.addEventListener('DOMContentLoaded', loadAppointments);
+// অ্যাপয়েন্টমেন্ট রিমুভ করার ফাংশন
+async function deleteAppointment(id) {
+    const confirmDelete = await Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you really want to cancel this appointment?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmColor: '#d33',
+        cancelColor: '#3085d6',
+        confirmButtonText: 'Yes, cancel it!',
+        background: '#1e1e2f',
+        color: '#fff'
+    });
+
+    if (confirmDelete.isConfirmed) {
+        try {
+            const res = await fetch(`https://clinic-appointment-backend-qg0f.onrender.com/api/appointments/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (res.ok) {
+                Swal.fire({
+                    title: 'Cancelled!',
+                    text: 'Your appointment has been removed successfully.',
+                    icon: 'success',
+                    background: '#1e1e2f',
+                    color: '#fff'
+                });
+                
+                // স্ক্রিনের লিস্ট রিফ্রেশ করা
+                if (typeof loadAppointments === 'function') {
+                    loadAppointments(); 
+                } else {
+                    location.reload();
+                }
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to cancel appointment.',
+                    icon: 'error',
+                    background: '#1e1e2f',
+                    color: '#fff'
+                });
+            }
+        } catch (err) {
+            console.error("Delete Error:", err);
+            Swal.fire({
+                title: 'Error!',
+                text: 'Could not connect to server.',
+                icon: 'error',
+                background: '#1e1e2f',
+                color: '#fff'
+            });
+        }
+    }
+}

@@ -103,3 +103,13 @@ app.delete('/api/appointments/:id', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// অ্যাপয়েন্টমেন্ট ডাটাবেজ থেকে মুছে ফেলার API
+app.delete('/api/appointments/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await pool.query('DELETE FROM appointments WHERE id = $1', [id]);
+        res.json({ message: "Appointment deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
