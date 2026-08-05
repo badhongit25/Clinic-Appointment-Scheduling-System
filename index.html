@@ -17,6 +17,24 @@
     
     <!-- AOS CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        /* কার্ডের ভেতরের ডেভেলপারের ছোট টেক্সট স্টাইল */
+        .card-developer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #a0aec0;
+            text-align: center;
+        }
+        .card-developer a {
+            color: #63b3ed;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .card-developer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <!-- Theme Switcher Top Corner -->
@@ -26,10 +44,10 @@
 
     <div class="background-animation"></div>
     
-    <!-- Main Form Container with AOS Animation -->
+    <!-- Main Container -->
     <div class="container glass-effect fade-in" data-aos="fade-up">
         
-        <!-- Patient Login Form -->
+        <!-- 1. Patient Login Form -->
         <div id="patient-login" class="form-section active">
             <h2><i class="fa-solid fa-user-injured"></i> Patient Login</h2>
             <form onsubmit="handlePatientLogin(event)">
@@ -44,9 +62,14 @@
             </form>
             <p>New here? <span class="toggle-link" onclick="switchForm('patient-register')">Register Now</span></p>
             <p>Are you an Admin? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
+            
+            <!-- কার্ডের ঠিক নিচে ডেভেলপারের নাম -->
+            <p class="card-developer">
+                Developed by <a href="https://github.com/badhongit25" target="_blank" rel="noopener noreferrer">Badhon</a>
+            </p>
         </div>
 
-        <!-- Patient Registration Form -->
+        <!-- 2. Patient Registration Form -->
         <div id="patient-register" class="form-section hidden">
             <h2><i class="fa-solid fa-user-plus"></i> Patient Registration</h2>
             <form onsubmit="handlePatientRegister(event)">
@@ -63,9 +86,14 @@
                 <button type="submit" class="btn">Register</button>
             </form>
             <p>Already have an account? <span class="toggle-link" onclick="switchForm('patient-login')">Login Here</span></p>
+            
+            <!-- কার্ডের ঠিক নিচে ডেভেলপারের নাম -->
+            <p class="card-developer">
+                Developed by <a href="https://github.com/badhongit25" target="_blank" rel="noopener noreferrer">Badhon</a>
+            </p>
         </div>
 
-        <!-- Admin Login Form -->
+        <!-- 3. Admin Login Form -->
         <div id="admin-login" class="form-section hidden">
             <h2><i class="fa-solid fa-user-shield"></i> Admin Login</h2>
             <form onsubmit="handleAdminLogin(event)">
@@ -80,9 +108,14 @@
             </form>
             <p>New Admin? <span class="toggle-link" onclick="switchForm('admin-register')">Register Admin</span></p>
             <p>Are you a Patient? <span class="toggle-link" onclick="switchForm('patient-login')">Patient Login</span></p>
+            
+            <!-- কার্ডের ঠিক নিচে ডেভেলপারের নাম -->
+            <p class="card-developer">
+                Developed by <a href="https://github.com/badhongit25" target="_blank" rel="noopener noreferrer">Badhon</a>
+            </p>
         </div>
 
-        <!-- Admin Registration Form -->
+        <!-- 4. Admin Registration Form -->
         <div id="admin-register" class="form-section hidden">
             <h2><i class="fa-solid fa-user-plus"></i> Admin Registration</h2>
             <form onsubmit="handleAdminRegister(event)">
@@ -96,21 +129,16 @@
                 <button type="submit" class="btn admin-btn">Register Admin</button>
             </form>
             <p>Already registered? <span class="toggle-link" onclick="switchForm('admin-login')">Admin Login</span></p>
+            
+            <!-- কার্ডের ঠিক নিচে ডেভেলপারের নাম -->
+            <p class="card-developer">
+                Developed by <a href="https://github.com/badhongit25" target="_blank" rel="noopener noreferrer">Badhon</a>
+            </p>
         </div>
         
     </div>
 
-    <!-- Footer Section -->
-    <footer class="custom-footer">
-        <p>
-            Developed by 
-            <a href="https://github.com/badhongit25" target="_blank" rel="noopener noreferrer">
-                Badhon
-            </a>
-        </p>
-    </footer>
-
-    <!-- SweetAlert2 JS & Custom App JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="app.js"></script>
 
@@ -118,8 +146,8 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
       AOS.init({
-        duration: 800, // অ্যানিমেশন স্পিড (৮০০ মিলি-সেকেন্ড)
-        once: true     // অ্যানিমেশন একবারই হবে
+        duration: 800,
+        once: true
       });
     </script>
 </body>
